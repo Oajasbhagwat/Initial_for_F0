@@ -363,7 +363,7 @@ void calc_Batt() {
   if (Fpr == 'H') lcd1.print("F2");
   if (Fpr == 'J') lcd1.print("F4");
   lcd1.setCursor(13, 0);
-  lcd1.print("B=");
+  lcd1.print("BA=");
   lcd1.print(BattV, 2);  // now,'Sigma',1lcd1.clear();show at (13,0) B=12.68
   lcd1.setCursor(0, 3);
   lcd1.print("                   ");  // erase line-3 (press measure)
@@ -1057,7 +1057,9 @@ void Recv_Serial2() {  //j3a=0 to be done at initialization time          xv1=60
         calc_Batt();
         if (Range_Sw != 1 && Fpr != 'Q') Show_LlK();
       }  // do not call Show_LlK ,if in Batt position,, or in 'Test'mode. show 15 bytes, expected to be 01,0Fh,.....upto FFh,FFh
+      lcd1.print("Check current status");
       if (tn1 == 21) curr_Status();
+      lcd1.print("Checking Current is done");
       if (tn1 == 21) {
         tn2 = 0;
         tn3 = 0;

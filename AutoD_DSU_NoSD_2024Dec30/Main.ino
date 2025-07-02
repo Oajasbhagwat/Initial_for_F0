@@ -1,7 +1,4 @@
 extern unsigned long timr3, timr4;  // declared in LCD_Touch.c++
-                                    // ------------------ --------------initialization  14/Feb/2022  -----------------------------------------------
-                                    //  --- all initialization done here
-                                    // --------------------------------------------------------------------------------------------------------
 #include "DEV_Config.h"
 #include "LCD_Driver.h"
 #include "LCD_GUI.h"
@@ -10,8 +7,6 @@ void setup() {
   const int Tch_Screen_SD_Cs = 53;  //  we have used SDC_CS_PIN=53 (line no.71) should it be 5, (i.e. D5)(for Touch Screen LCD)
   digitalWrite(42, HIGH);           // this will ensure that flip-flop u1-A(4013) remains on & +7.5 V remains on. if we wish to turn off DSU, we should make D42=0
   Serial1.begin(9600, SERIAL_8N1);  // for GPS module ,9/August/2022
-  //-------------------------------------------------------
-  // GPSSer.begin(9600) ; // actually this is same as Serial1.begin(9600) (GPS channel)
   Serial2.begin(4800, SERIAL_8N2);  // Now,(5/Sept/2022)receives Resistance,Batt etc.on DSU2_Rx2 But transmits any data to SimCrm1_Tx2(Earlier,for receiving data from SimCrm1 9/August/2022
   System_Init();
   pinMode(SDC_CS_PIN, OUTPUT);  // this is pin 53
@@ -47,19 +42,13 @@ void setup() {
   lcd1.setCursor(0, 1);  //
  Serial1.begin(9600);
 Serial.println("SR12----");
-  //START: Initialise SD card       ****temp modification begin
   const int SDC_CS_PIN = 53;
-     //SD_ok = 1;  // SD is supressed 
   Serial.println("SR13---");
-      // SD_ok=1 means SD card is ok ]]]
-        //  /*
        SD_ok=1;lcd1.clear();lcd1.setCursor(0, 2);  lcd1.print("...SD forced  ");
         lcd1.setCursor(5, 3);  lcd1.print("  to be OK.... ");
-          //  */ 
   DDRC = 0xFF;  // port C is output port. Not needed !
   pinMode(26, INPUT_PULLUP);  // this pin goes Low when Measure switch is pressed
   A4_Init();  // ( one-time initialization
-     //Serial.println("SR14+++");
   pinMode(otpin0, OUTPUT);
   pinMode(otpin1, OUTPUT);  // out (3,2,1,0) 1110
   pinMode(otpin2, OUTPUT);
@@ -68,13 +57,8 @@ Serial.println("SR12----");
   pinMode(Kbin1, INPUT_PULLUP);
   pinMode(Kbin2, INPUT_PULLUP);
   pinMode(Kbin3, INPUT_PULLUP);
-     // actually,The next 4 lin are not needed 
 }  // end of 'setup()
-//  loop() begins (Do over & over again)
 void loop() {
-  //-----------------------presently: Serial1-GPS, Serial2-- main Auto-D instrument, Serial3- should be used for Blue-Tooth
-  extern volatile unsigned char Kbkaz;  // defined in 'Tab' -- LCD_Touch.c++
-  //Serial.println("SR15---");
    i11++;
   if (i11 >= 100000) {
     i11 = 0;
@@ -86,39 +70,4 @@ void loop() {
   Kb_Action();  // show all 16 keys, & take appropriatae actions
   Led += 1;
 }  // end of 'loop'
-   //.......................................................................end of loop................
-/******************************************************* 
-     initialization of Timer
- *******************************************************/
-void InitTimr(void) {
-  //  ----------------Timer-5 ( for Frq+ )-------------
-  TCNT5 = 0;  // Timer count (16-bit) <-- 0
-  TCCR5A = 0;
-  TCCR5B = 0;                                         // Initializz to 0
-  TCCR5B |= (1 << CS52) | (1 << CS51) | (1 << CS50);  // bits[2,1,0]=111 Select external clock (rising edge  )
-                                                      // no interrpts enabled for timer 5
-  TCCR5B |= (1 << WGM52);                             // bits [3,2,1,0] = 0100 means 'select CTC mode ( 16-bit Timer/counter ). thus timer value will be 0 ~ FFFFh
-  OCR5A = 62500;                                      //(         presently 'Compare match A interrupt is not being used)
-   TIMSK5 = 02;
-  //   --------------Timer-0 (for Frq- )-------------------
-  TCNT0 = 0;  // Timer count (8-bit) <-- 0
-  TCCR0A = 0;
-  TCCR0B = 0;                                         // Initializz to 0
-  TCCR0A |= (1 << WGM01);                             // turn on CTC (Clear timer0 on conpare natch) mode
-  TCCR0B |= (1 << CS02) | (1 << CS01) | (1 << CS00);  // bits[2,1,0]=111 Select external clock (rising edge  )
-  OCR0A = 250;                                        // 'Compare Regiser ='250' (0~249) ( it was 20 earlier )
-  TIFR0 = 0;                                          // initialze
-  TIFR0 |= (1 << OCF0A);                              // clear any pending interrupts
-  TIMSK0 = 02;                                        // bit[1] = 1 means, 'timer- compare match A' interrupt is enabled
-  //   ------------- Tiner-3 ( for 10 milli-Second interrupt ) --------
-  TCCR3A = 0;
-  TCCR3B = 0;
-  TCNT3 = 0;
-  TCCR3B |= (1 << WGM32) | (1 << CS32);  //|(1<<CS30);   // WGM3{3~0]= 0100b (=4) means CTC(Clear timer on Compare) mode,
-  TIMSK3 |= (1 << OCIE3A);               // Compare Match A interrupt is enabled (it is understood that TIMSK3 is originally 0)
-  OCR3A = 625;  // This will generate an interrupt every 10 mSec ( for 62,500 pulses per Sec.
-  TCNT3 = 0;
-  TIFR3 |= (1 << OCF3A);  // clear any pending interrupts
-  TIMSK3 = 02;  // Compare Match A interrupt is enabled 
-}
-//  .....................................................end of initialization of Timers
+void InitTimr(void) {}

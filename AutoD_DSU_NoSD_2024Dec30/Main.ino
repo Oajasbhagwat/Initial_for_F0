@@ -3,6 +3,11 @@ extern unsigned long timr3, timr4;  // declared in LCD_Touch.c++
 #include "LCD_Driver.h"
 #include "LCD_GUI.h"
 #include "LCD_Touch.h"
+#include <SPI.h>
+#include <SD.h>
+const int chipSelect = 53;
+     File dataFile;
+
 void setup() {
   const int Tch_Screen_SD_Cs = 53;  //  we have used SDC_CS_PIN=53 (line no.71) should it be 5, (i.e. D5)(for Touch Screen LCD)
   digitalWrite(42, HIGH);           // this will ensure that flip-flop u1-A(4013) remains on & +7.5 V remains on. if we wish to turn off DSU, we should make D42=0
@@ -38,14 +43,16 @@ void setup() {
   lcd1.print("Anvic systems ");
   Serial.println("SR11----");
   lcd1.setCursor(0, 1);
-  lcd1.print("+++++ CRM Auto - D +++Test 2.24+++");
+  lcd1.print("+++++ CRM Auto - D +++Test 66+++");
+  delay(2000);
   lcd1.setCursor(0, 1);  //
  Serial1.begin(9600);
 Serial.println("SR12----");
   const int SDC_CS_PIN = 53;
   Serial.println("SR13---");
-       SD_ok=1;lcd1.clear();lcd1.setCursor(0, 2);  lcd1.print("...SD forced  ");
-        lcd1.setCursor(5, 3);  lcd1.print("  to be OK.... ");
+       SD_ok=1;lcd1.clear();lcd1.setCursor(0, 2);
+        lcd1.setCursor(5, 3);  lcd1.print(" ...SD OK.... ");
+        delay(2000);
   DDRC = 0xFF;  // port C is output port. Not needed !
   pinMode(26, INPUT_PULLUP);  // this pin goes Low when Measure switch is pressed
   A4_Init();  // ( one-time initialization
@@ -57,6 +64,36 @@ Serial.println("SR12----");
   pinMode(Kbin1, INPUT_PULLUP);
   pinMode(Kbin2, INPUT_PULLUP);
   pinMode(Kbin3, INPUT_PULLUP);
+  //SD Card from below
+    Serial.begin(9600);
+  pinMode(53, OUTPUT);
+  SD.begin();
+   while (!Serial) {
+    ;  // wait for serial port to connect. Needed for native USB port only
+  }
+  // pinMode(10, OUTPUT);
+   //digitalWrite(10, HIGH);
+  if (!SD.begin()) {
+    Serial.println("Initialization failed!");
+    lcd1.setCursor(0, 1);
+    lcd1.print("Initialization failed 6.5");
+    delay(2000);
+    return;
+  }
+  Serial.println("Initialization sucessful!");
+  dataFile = SD.open("data65.txt", FILE_WRITE);
+   lcd1.setCursor(0, 1);
+    lcd1.print("Initialization sucessful 6.5");
+    delay(2000);
+
+   dataFile.print("test 6.5");
+  dataFile.close();
+  Serial.println("test data saved 6.5");
+    lcd1.print("data saving sucessful 6.5");
+    delay(2000);
+
+     Serial.begin(57600, SERIAL_8N1);  //for Serial monitor (LapTop)
+    pinMode(53, HIGH);
 }  // end of 'setup()
 void loop() {
    i11++;

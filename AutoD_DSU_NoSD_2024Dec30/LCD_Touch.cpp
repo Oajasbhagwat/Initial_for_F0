@@ -310,8 +310,9 @@ void calc_Batt() {
   if (Fpr == 'H') lcd1.print("F2");
   if (Fpr == 'J') lcd1.print("F4");
   lcd1.setCursor(13, 0);
-  lcd1.print("E=");
+  lcd1.print("BE=");
   lcd1.print(BattV, 2);  // now,'Sigma',1lcd1.clear();show at (13,0) B=12.68
+  delay(2000);
   lcd1.setCursor(0, 3);
   lcd1.print("                   ");  // erase line-3 (press measure)
                                       //-----------------------show switch positions, only if RcBf_R1==3,i.e.Rannge switch pos. is on 'Bat'---------------------

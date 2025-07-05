@@ -43,7 +43,7 @@ void setup() {
   lcd1.print("Anvic systems ");
   Serial.println("SR11----");
   lcd1.setCursor(0, 1);
-  lcd1.print("+++++ CRM Auto - D +++Test 68+++");
+  lcd1.print("+++++ CRM Auto - D +++Test 69+++");
   delay(2000);
   lcd1.setCursor(0, 1);  //
  Serial1.begin(9600);
@@ -76,20 +76,20 @@ Serial.println("SR12----");
   if (!SD.begin()) {
     Serial.println("Initialization failed!");
     lcd1.setCursor(0, 1);
-    lcd1.print("Initialization failed 68");
+    lcd1.print("Initialization failed 69");
     delay(2000);
     return;
   }
   Serial.println("Initialization sucessful!");
-  dataFile = SD.open("data68.txt", FILE_WRITE);
+  dataFile = SD.open("data69.txt", FILE_WRITE);
    lcd1.setCursor(0, 1);
-    lcd1.print("Initialization sucessful 68");
+    lcd1.print("Initialization sucessful 69");
     delay(2000);
 
-   dataFile.print("test 68");
+   dataFile.print("test 69");
   dataFile.close();
-  Serial.println("test data saved 68");
-    lcd1.print("data saving sucessful 68");
+  Serial.println("test data saved 69");
+    lcd1.print("data saving sucessful 69");
     delay(2000);
 
      Serial.begin(57600, SERIAL_8N1);  //for Serial monitor (LapTop)

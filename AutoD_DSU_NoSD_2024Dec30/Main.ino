@@ -43,7 +43,7 @@ void setup() {
   lcd1.print("Anvic systems ");
   Serial.println("SR11----");
   lcd1.setCursor(0, 1);
-  lcd1.print("+++++ CRM Auto - D +++Test 66+++");
+  lcd1.print("+++++ CRM Auto - D +++Test 68+++");
   delay(2000);
   lcd1.setCursor(0, 1);  //
  Serial1.begin(9600);
@@ -65,31 +65,31 @@ Serial.println("SR12----");
   pinMode(Kbin2, INPUT_PULLUP);
   pinMode(Kbin3, INPUT_PULLUP);
   //SD Card from below
-    Serial.begin(9600);
+   Serial.begin(9600);
   pinMode(53, OUTPUT);
   SD.begin();
    while (!Serial) {
     ;  // wait for serial port to connect. Needed for native USB port only
   }
   // pinMode(10, OUTPUT);
-   //digitalWrite(10, HIGH);
+  // digitalWrite(10, HIGH);
   if (!SD.begin()) {
     Serial.println("Initialization failed!");
     lcd1.setCursor(0, 1);
-    lcd1.print("Initialization failed 6.5");
+    lcd1.print("Initialization failed 68");
     delay(2000);
     return;
   }
   Serial.println("Initialization sucessful!");
-  dataFile = SD.open("data65.txt", FILE_WRITE);
+  dataFile = SD.open("data68.txt", FILE_WRITE);
    lcd1.setCursor(0, 1);
-    lcd1.print("Initialization sucessful 6.5");
+    lcd1.print("Initialization sucessful 68");
     delay(2000);
 
-   dataFile.print("test 6.5");
+   dataFile.print("test 68");
   dataFile.close();
-  Serial.println("test data saved 6.5");
-    lcd1.print("data saving sucessful 6.5");
+  Serial.println("test data saved 68");
+    lcd1.print("data saving sucessful 68");
     delay(2000);
 
      Serial.begin(57600, SERIAL_8N1);  //for Serial monitor (LapTop)
